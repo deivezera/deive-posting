@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import '@fontsource/dm-sans/400.css';
+import '@fontsource/dm-sans/500.css';
+import '@fontsource/dm-sans/700.css';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+
+	<body class="container mx-auto max-w-4xl w-full py-12">
+		<Header />
+		<main>
+			<article class="animate-fadeIn">
+				{heroImage && <img class="my-2" width={'100%'} height={360} src={heroImage} alt="" />}
+				<div class="my-2 py-2 text-xs font-light uppercase">
+					<FormattedDate date={pubDate} />
+					{
+						updatedDate && (
+							<div>
+								Last updated on <FormattedDate date={updatedDate} />
+							</div>
+						)
+					}
+				</div>
+				<slot />
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
